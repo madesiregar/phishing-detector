@@ -4,8 +4,10 @@ import tldextract
 SUSPICIOUS_TLDS = {'.tk', '.ml', '.ga', '.cf', '.gq', '.xyz', '.top', '.click'}
 BRAND_TYPOS = {
     'paypa1': 'paypal', 'g00gle': 'google',
-    'amaz0n': 'amazon', 'micros0ft': 'microsoft',
-    'app1e': 'apple', 'facebo0k': 'facebook'
+    'gooogle': 'google', 'googgle': 'google',
+    'amaz0n': 'amazon', 'amazoon': 'amazon',
+    'micros0ft': 'microsoft', 'app1e': 'apple',
+    'facebo0k': 'facebook', 'inst4gram': 'instagram'
 }
 URGENT_WORDS = ['verify', 'suspended', 'confirm', 'update', 'login',
                 'secure', 'validate', 'billing', 'unusual', 'activity']
@@ -18,9 +20,9 @@ def analyze_url(url):
     suffix = '.' + ext.suffix
 
     # IP address langsung
-    if re.match(r'https?://\d{1,3}(\.\d{1,3}){3}', url):
-        findings.append(('IP address langsung', 'high'))
-        score += 30
+    if re.search(r'https?://\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', url):
+        findings.append(('IP address langsung', 'critical'))
+        score += 60
 
     # TLD mencurigakan
     if suffix in SUSPICIOUS_TLDS:
@@ -30,7 +32,7 @@ def analyze_url(url):
     # Typosquatting
     for typo, brand in BRAND_TYPOS.items():
         if typo in domain:
-            findings.append((f'Imitasi brand: {typo} → {brand}', 'critical'))
+            findings.append((f'Imitasi brand: {typo} mirip {brand}', 'critical'))
             score += 40
 
     # URL panjang
