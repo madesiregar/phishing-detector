@@ -1,0 +1,4 @@
+flask
+tldextract
+requests
+gunicorn
