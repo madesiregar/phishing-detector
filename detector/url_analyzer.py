@@ -18,7 +18,7 @@ def analyze_url(url):
     suffix = '.' + ext.suffix
 
     # IP address langsung
-    if re.match(r'\d{1,3}(\.\d{1,3}){3}', url):
+    if re.match(r'https?://\d{1,3}(\.\d{1,3}){3}', url):
         findings.append(('IP address langsung', 'high'))
         score += 30
 
